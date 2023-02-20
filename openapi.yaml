@@ -1,0 +1,18 @@
+swagger: "2.0"
+info:
+  title: Isoboard
+  version: 0.1.0
+host: api.isoboard.com
+basePath: /v1
+schemes:
+  - https
+paths:
+  /users:
+    get:
+      summary: Returns a list of users.
+      description: ""
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
