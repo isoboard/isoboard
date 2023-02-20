@@ -13,6 +13,7 @@ import (
 var (
 	PROJECT_DIR, _ = os.Getwd()
 	PROJECT_BIN    = fmt.Sprintf("%s/bin", PROJECT_DIR)
+	SWAGGER        = fmt.Sprintf("%s/swagger", PROJECT_BIN)
 )
 
 func runInDir(dir string, env map[string]string, cmd []string) error {
@@ -51,14 +52,14 @@ func goGetTool(target, source string) error {
 
 func swagger() error {
 	return goGetTool(
-		fmt.Sprintf("%s/swagger", PROJECT_BIN),
+		SWAGGER,
 		"github.com/go-swagger/go-swagger/cmd/swagger@latest",
 	)
 }
 
 // Installing dependencies
 func Prepare() error {
-	err := Swagger()
+	err := swagger()
 	if err != nil {
 		return err
 	}
@@ -66,6 +67,12 @@ func Prepare() error {
 }
 
 func Generate() error {
+	return sh.Run(
+		SWAGGER,
+		"generate", "server",
+		"--spec", "openapi.yaml",
+		"--target", "backend/generated",
+	)
 	return nil
 }
 
